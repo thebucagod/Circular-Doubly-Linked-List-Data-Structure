@@ -1,0 +1,15 @@
+# Visual Studio служебные файлы
+.vs/
+*.vsidx
+*.vsscc
+
+# Общие исключения для C#/Visual Studio
+bin/
+obj/
+*.user
+*.suo
+*.cache
+*.log
+*.pdb
+*.exe
+*.dll
