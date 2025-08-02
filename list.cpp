@@ -1,5 +1,7 @@
 #include "list.h"
 
-list::list() {}
+template<class type>
+list<type>::list() {}
 
-list::~list() {}
+template<class type>
+list<type>::~list() {}
