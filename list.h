@@ -8,19 +8,21 @@ public:
 	// Добавить узел
 	bool push_front(type data);
 	bool push_back(type data);
-	bool push_node();
+	bool push_node(type data, int index);
 
 	// Удалить узел
 	bool pop_front();
 	bool pop_back();
-	bool pop_node();
+	bool pop_node(int index);
 
 	// Геттер узла
 	type front();
 	type back();
-	type get_node();
+	type get_node(int index);
 
-	bool empty();
+	// Вспомогательные методы
+	bool empty() const;
+	int size() const;
 
 private:
 	struct Node {
@@ -29,7 +31,7 @@ private:
 		Node* n_prev;
 
 		Node(type data)
-			: n_data(data), n_next(nullptr), n_prev(nullptr) {};
+			: n_data(data), n_next(nullptr), n_prev(nullptr), index(0) {};
 	};
 
 	Node* _head;
