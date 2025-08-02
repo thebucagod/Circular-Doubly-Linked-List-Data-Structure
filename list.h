@@ -31,7 +31,7 @@ private:
 		Node* n_prev;
 
 		Node(type data)
-			: n_data(data), n_next(nullptr), n_prev(nullptr), index(0) {};
+			: n_data(data), n_next(nullptr), n_prev(nullptr) {};
 	};
 
 	Node* _head;
