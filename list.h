@@ -1,9 +1,22 @@
 #pragma once
+
+#include <iostream>
+
+// Предварительное объявление шаблонного класса
+template<class type>
+class list;
+
+// Предварительное объявление шаблонного оператора
+template<class type>
+std::ostream& operator<<(std::ostream& os, const list<type>& obj);
+
 template<class type>
 class list {
 public:
 	list();
 	~list();
+
+	friend std::ostream& operator<< <type>(std::ostream& os, const list<type>& obj);
 
 	// Добавить узел
 	bool push_front(type data);
@@ -38,3 +51,79 @@ private:
 	Node* _tail;
 	int _length;
 };
+
+// Конструктор
+template<class type>
+list<type>::list()
+	: _length(0), _head(nullptr), _tail(nullptr) {}
+
+// Деструктор
+template<class type>
+list<type>::~list() {
+	if (empty()) return;
+
+	_tail->n_next = nullptr;
+	_head->n_prev = nullptr;
+
+	while (_head) {
+		Node* temp = _head->n_next;
+		delete _head;
+		_head = temp;
+	}
+
+	_tail = nullptr;
+}
+
+// Пушим новый узел в начало
+template<class type>
+bool list<type>::push_front(type data) {
+	Node* new_node = new Node(data);
+
+	if (empty()) {
+		_head = _tail = new_node;
+		new_node->n_next = new_node;
+		new_node->n_prev = new_node;
+	} else {
+		new_node->n_next = _head;
+		new_node->n_prev = _tail;
+		_head->n_prev = new_node;
+		_tail->n_next = new_node;
+		_head = new_node;
+	}
+
+	_length++;
+	return true;
+}
+
+// Проверка на пустой список
+template<class type>
+bool list<type>::empty() const {
+	return _head == nullptr;
+}
+
+// Метод получения размера
+template<class type>
+int list<type>::size() const {
+	return _length;
+}
+
+// Перегрузка оператора потока вывода
+template<class type>
+std::ostream& operator<<(std::ostream& os, const list<type>& obj) {
+	if (obj.empty()) {
+		os << "[]";
+		return os;
+	}
+
+	typename list<type>::Node* current = obj._head;
+	os << "[";
+	for (int i = 0; i < obj._length; i++) {
+		os << current->n_data;
+		if (i < obj._length - 1) {
+			os << ", ";
+		}
+		current = current->n_next;
+	}
+	os << "]";
+	return os;
+}
