@@ -1,15 +1,38 @@
-# Visual Studio служебные файлы
-.vs/
-*.vsidx
-*.vsscc
+@"
+# Игнорировать файлы сборки Visual Studio
+[Dd]ebug/
+[Rr]elease/
+[Xx]64/
+[Xx]86/
+[Bb]uild/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
 
-# Общие исключения для C#/Visual Studio
-bin/
-obj/
+# Временные файлы
+*.ilk
+*.pdb
+*.idb
+*.obj
+*.exe
+*.tlog
+*.log
+*.sdf
+*.ipch
+*.db
+*.opendb
+
+# Файлы пользовательских настроек
 *.user
 *.suo
-*.cache
-*.log
-*.pdb
-*.exe
-*.dll
+*.userosscache
+
+# Папка .vs (скрытые настройки Visual Studio)
+.vs/
+
+# Файлы решения
+*.sln
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
+"@ | Set-Content -Path .gitignore
