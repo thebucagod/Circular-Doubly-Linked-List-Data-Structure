@@ -120,6 +120,31 @@ bool list<type>::pop_front() {
 	return true;
 }
 
+template<class type>
+bool list<type>::pop_back() {
+	if (empty()) return false;
+
+	if (_length == 1) {
+		delete _head;
+		_head = nullptr;
+		_tail = nullptr;
+		_length = 0;
+
+		return true;
+	}
+
+	Node* temp = _tail;
+	_tail = _tail->n_prev;
+	_tail->n_next = _head;
+	_head->n_prev = _tail;
+	--_length;
+
+	delete temp;
+	temp = nullptr;
+
+	return true;
+}
+
 // Проверка на пустой список
 template<class type>
 bool list<type>::empty() const {
