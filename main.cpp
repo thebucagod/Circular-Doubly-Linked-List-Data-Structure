@@ -12,6 +12,8 @@ int main() {
 	ml.push_front(0);
 	ml.push_front(1);
 
+	ml.pop_front();
+
 	std::cout << ml;
 
 	return 0;
