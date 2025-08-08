@@ -96,6 +96,27 @@ bool list<type>::push_front(type data) {
 }
 
 template<class type>
+bool list<type>::push_back(type data) {
+	Node* new_node = new Node(data);
+
+	if (empty()) {
+		_head = _tail = new_node;
+		new_node->n_next = new_node;
+		new_node->n_prev = new_node;
+	} else {
+		new_node->n_next = _head;
+		new_node->n_prev = _tail;
+		_head->n_prev = new_node;
+		_tail->n_next = new_node;
+		_tail = new_node;
+	}
+
+	_length++;
+	return true;
+}
+
+// Удаляем узел в начале
+template<class type>
 bool list<type>::pop_front() {
 	if (empty()) return false;
 
@@ -120,6 +141,7 @@ bool list<type>::pop_front() {
 	return true;
 }
 
+// Удаляем узел в конце
 template<class type>
 bool list<type>::pop_back() {
 	if (empty()) return false;
