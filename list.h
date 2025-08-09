@@ -14,7 +14,8 @@ template<class type>
 class list {
 public:
 	list();
-	list(const list<type>& obj);
+	list(const list<type>& other);
+	list(list<type>&& other) noexcept;
 	~list();
 
 	friend std::ostream& operator<< <type>(std::ostream& os, const list<type>& obj);
@@ -77,7 +78,6 @@ inline list<type>::list(const list<type> &other)
 
 	while (current_other != other._head) {
 		Node* new_node = new Node(current_other->n_data);
-		
 		new_node->n_prev = _tail;
 		_tail->n_next = new_node;
 
@@ -89,6 +89,15 @@ inline list<type>::list(const list<type> &other)
 
 	_head->n_prev = _tail;
 	_tail->n_next = _head;
+}
+
+// Конструтор перемещения
+template<class type>
+inline list<type>::list(list<type>&& other) noexcept
+	: _length(other._length), _head(other._head), _tail(other._tail) {	
+	other._length = 0;
+	other._head = nullptr;
+	other._tail = nullptr;
 }
 
 // Деструктор
@@ -129,6 +138,7 @@ bool list<type>::push_front(type data) {
 	return true;
 }
 
+// Пушим новый узел в конец
 template<class type>
 bool list<type>::push_back(type data) {
 	Node* new_node = new Node(data);

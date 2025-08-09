@@ -12,7 +12,7 @@ int main() {
 	ml.push_front(0);
 	ml.push_front(1);
 
-	list<int> mk(ml);
+	list<int> mk(std::move(ml));
 
 	ml.pop_front();
 	ml.pop_back();
