@@ -21,8 +21,10 @@ public:
 	friend std::ostream& operator<< <type>(std::ostream& os, const list<type>& obj);
 
 	// Добавить узел
-	bool push_front(type data);
-	bool push_back(type data);
+	bool push_front(const type& data);
+	bool push_front(type&& data) noexcept;
+	bool push_back(const type& data);
+	bool push_back(type&& data) noexcept;
 	bool push_node(type data, int index);
 
 	// Удалить узел
@@ -105,6 +107,7 @@ template<class type>
 list<type>::~list() {
 	if (empty()) return;
 
+	// Разрываем цикл
 	_tail->n_next = nullptr;
 	_head->n_prev = nullptr;
 
@@ -119,8 +122,29 @@ list<type>::~list() {
 
 // Пушим новый узел в начало
 template<class type>
-bool list<type>::push_front(type data) {
+bool list<type>::push_front(const type& data) {
 	Node* new_node = new Node(data);
+
+	if (empty()) {
+		_head = _tail = new_node;
+		new_node->n_next = new_node;
+		new_node->n_prev = new_node;
+	} else {
+		new_node->n_next = _head;
+		new_node->n_prev = _tail;
+		_head->n_prev = new_node;
+		_tail->n_next = new_node;
+		_head = new_node;
+	}
+
+	_length++;
+	return true;
+}
+
+// Пушим новый узел в начало с семантикой перемещения
+template<class type>
+inline bool list<type>::push_front(type&& data) noexcept {
+	Node* new_node = new Node(std::move(data));
 
 	if (empty()) {
 		_head = _tail = new_node;
@@ -140,8 +164,29 @@ bool list<type>::push_front(type data) {
 
 // Пушим новый узел в конец
 template<class type>
-bool list<type>::push_back(type data) {
+bool list<type>::push_back(const type& data) {
 	Node* new_node = new Node(data);
+
+	if (empty()) {
+		_head = _tail = new_node;
+		new_node->n_next = new_node;
+		new_node->n_prev = new_node;
+	} else {
+		new_node->n_next = _head;
+		new_node->n_prev = _tail;
+		_head->n_prev = new_node;
+		_tail->n_next = new_node;
+		_tail = new_node;
+	}
+
+	_length++;
+	return true;
+}
+
+// Пушим новый узел в конец с семантикой перемещения
+template<class type>
+inline bool list<type>::push_back(type&& data) noexcept {
+	Node* new_node = new Node(std::move(data));
 
 	if (empty()) {
 		_head = _tail = new_node;
