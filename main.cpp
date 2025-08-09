@@ -12,10 +12,15 @@ int main() {
 	ml.push_front(0);
 	ml.push_front(1);
 
+	list<int> mk(ml);
+
 	ml.pop_front();
 	ml.pop_back();
 
-	std::cout << ml;
+
+
+	std::cout << ml << std::endl;
+	std::cout << mk << std::endl;
 
 	return 0;
 }

@@ -14,6 +14,7 @@ template<class type>
 class list {
 public:
 	list();
+	list(const list<type>& obj);
 	~list();
 
 	friend std::ostream& operator<< <type>(std::ostream& os, const list<type>& obj);
@@ -58,6 +59,37 @@ private:
 template<class type>
 list<type>::list()
 	: _length(0), _head(nullptr), _tail(nullptr) {}
+
+// Конструктор копирования
+template<class type>
+inline list<type>::list(const list<type> &other)
+	: _length(0), _head(nullptr), _tail(nullptr) {
+	
+	if (other.empty()) return;
+
+	Node* current_other = other._head;
+
+	_head = new Node(other._head->n_data);
+	_tail = _head;
+	_length = 1;
+
+	current_other = current_other->n_next;
+
+	while (current_other != other._head) {
+		Node* new_node = new Node(current_other->n_data);
+		
+		new_node->n_prev = _tail;
+		_tail->n_next = new_node;
+
+		_tail = new_node;
+
+		current_other = current_other->n_next;
+		++_length;
+	}
+
+	_head->n_prev = _tail;
+	_tail->n_next = _head;
+}
 
 // Деструктор
 template<class type>
