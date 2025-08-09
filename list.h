@@ -47,10 +47,11 @@ private:
 		Node* n_next;
 		Node* n_prev;
 
-		Node(const type data)
-			: n_data(data), n_next(nullptr), n_prev(nullptr) {};
-		Node(type&& data) noexcept
-			: n_data(std::move(data)), n_next(nullptr), n_prev(nullptr) {};
+		template<class U>
+		Node(U&& data) noexcept
+			: n_data(std::forward<U>(data)),
+			  n_next(nullptr),
+			  n_prev(nullptr) {};
 	};
 
 	Node* _head;
