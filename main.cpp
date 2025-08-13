@@ -9,7 +9,7 @@ int main() {
 	ml.push_front(41234);
 	ml.push_front(1234);
 	ml.push_front(123);
-	ml.push_front(0);
+	ml.push_front(0); 
 	ml.push_front(1);
 
 	list<int> mk(std::move(ml));

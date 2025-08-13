@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <string>
 
 // Предварительное объявление шаблонного класса
 template<class type>
@@ -25,7 +26,7 @@ public:
 	bool push_front(type&& data) noexcept;
 	bool push_back(const type& data);
 	bool push_back(type&& data) noexcept;
-	bool push_node(type data, int index);
+	bool push_node(const type& data, int index);
 
 	// Удалить узел
 	bool pop_front();
@@ -202,6 +203,36 @@ inline bool list<type>::push_back(type&& data) noexcept {
 	}
 
 	_length++;
+	return true;
+}
+
+template<class type>
+inline bool list<type>::push_node(const type& data, int index) {
+	if (index > _length || index < 0) {
+		throw std::out_of_range("Index" + std::to_string(index) + 
+								" is out of range [0, " + 
+								std::to_string(_length) + "]";
+	}
+
+	// Частные случаи
+	if (index == 0) return push_front(data);
+	if (index == _length)	return push_back(data);
+
+	// Создание нового узла
+	Node* new_node = new Node(data);
+	Node* temp = _head;
+
+	// Находим узел с индексом (index-1)
+	for (int i = 0; i < index - 1; i++) {
+		temp = temp->n_next;
+	}
+	// Вставка узла
+	new_node->n_next = temp->n_next;
+	new_node->n_prev = temp;
+	temp->n_next->n_prev = new_node;
+	temp->n_next = new_node;
+
+	++_length;
 	return true;
 }
 
