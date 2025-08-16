@@ -22,11 +22,12 @@ public:
 	friend std::ostream& operator<< <type>(std::ostream& os, const list<type>& obj);
 
 	// Добавить узел
-	bool push_front(const type& data);
-	bool push_front(type&& data) noexcept;
-	bool push_back(const type& data);
-	bool push_back(type&& data) noexcept;
-	bool push_node(const type& data, int index);
+	void push_front(const type& data);
+	void push_front(type&& data) noexcept;
+	void push_back(const type& data);
+	void push_back(type&& data) noexcept;
+	void push_node(const type& data, int index);
+	void push_node(const type&& data, int index) noexcept;
 
 	// Удалить узел
 	bool pop_front();
@@ -59,6 +60,11 @@ private:
 	Node* _tail;
 	int _length;
 };
+
+
+/*
+	Конструкторы и деструкторы
+*/
 
 // Конструктор
 template<class type>
@@ -122,9 +128,18 @@ list<type>::~list() {
 	_tail = nullptr;
 }
 
+
+/*
+	Вставка узлов в список
+	Вставка по значениям и с семантикой перемещения
+	Возвращают void
+	Кидают ошибки у пушей по индексу
+*/
+
 // Пушим новый узел в начало
 template<class type>
-bool list<type>::push_front(const type& data) {
+void list<type>::push_front(const type& data) {
+
 	Node* new_node = new Node(data);
 
 	if (empty()) {
@@ -140,12 +155,12 @@ bool list<type>::push_front(const type& data) {
 	}
 
 	_length++;
-	return true;
+	return;
 }
 
 // Пушим новый узел в начало с семантикой перемещения
 template<class type>
-inline bool list<type>::push_front(type&& data) noexcept {
+void list<type>::push_front(type&& data) noexcept {
 	Node* new_node = new Node(std::move(data));
 
 	if (empty()) {
@@ -161,12 +176,12 @@ inline bool list<type>::push_front(type&& data) noexcept {
 	}
 
 	_length++;
-	return true;
+	return;
 }
 
 // Пушим новый узел в конец
 template<class type>
-bool list<type>::push_back(const type& data) {
+void list<type>::push_back(const type& data) {
 	Node* new_node = new Node(data);
 
 	if (empty()) {
@@ -182,12 +197,12 @@ bool list<type>::push_back(const type& data) {
 	}
 
 	_length++;
-	return true;
+	return;
 }
 
 // Пушим новый узел в конец с семантикой перемещения
 template<class type>
-inline bool list<type>::push_back(type&& data) noexcept {
+void list<type>::push_back(type&& data) noexcept {
 	Node* new_node = new Node(std::move(data));
 
 	if (empty()) {
@@ -203,11 +218,12 @@ inline bool list<type>::push_back(type&& data) noexcept {
 	}
 
 	_length++;
-	return true;
+	return;
 }
 
+// Пушим новый узел в заданный индекс
 template<class type>
-inline bool list<type>::push_node(const type& data, int index) {
+void list<type>::push_node(const type& data, int index) {
 	if (index > _length || index < 0) {
 		throw std::out_of_range("Index" + std::to_string(index) + 
 								" is out of range [0, " + 
@@ -216,7 +232,7 @@ inline bool list<type>::push_node(const type& data, int index) {
 
 	// Частные случаи
 	if (index == 0) return push_front(data);
-	if (index == _length)	return push_back(data);
+	if (index == _length) return push_back(data);
 
 	// Создание нового узла
 	Node* new_node = new Node(data);
@@ -233,8 +249,20 @@ inline bool list<type>::push_node(const type& data, int index) {
 	temp->n_next = new_node;
 
 	++_length;
-	return true;
+	return;
 }
+
+// Пушим новый узел в заданный индекс с семантикой перемещения
+template<class type>
+void list<type>::push_node(const type&& data, int index) noexcept {}
+
+
+/*
+	Удаление узлов в списке
+	удаление по значениям и с семантикой перемещения
+	Возвращают bool
+	Не кидают ошибки, могут мернуть 0
+*/
 
 // Удаляем узел в начале
 template<class type>
@@ -288,17 +316,34 @@ bool list<type>::pop_back() {
 	return true;
 }
 
+
+/*
+	Гетеры различных узлов
+*/
+
+//....
+
+
+/*
+	Вспомогательные методы
+*/
+
 // Проверка на пустой список
 template<class type>
-bool list<type>::empty() const {
+inline bool list<type>::empty() const {
 	return _head == nullptr;
 }
 
 // Метод получения размера
 template<class type>
-int list<type>::size() const {
+inline int list<type>::size() const {
 	return _length;
 }
+
+
+/* 
+	Перегрузки операторов
+*/
 
 // Перегрузка оператора потока вывода
 template<class type>
