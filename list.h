@@ -27,7 +27,7 @@ public:
 	void push_back(const type& data);
 	void push_back(type&& data) noexcept;
 	void push_node(const type& data, int index);
-	void push_node(const type&& data, int index) noexcept;
+	void push_node(type&& data, int index);
 
 	// Удалить узел
 	bool pop_front();
@@ -155,7 +155,6 @@ void list<type>::push_front(const type& data) {
 	}
 
 	_length++;
-	return;
 }
 
 // Пушим новый узел в начало с семантикой перемещения
@@ -176,7 +175,6 @@ void list<type>::push_front(type&& data) noexcept {
 	}
 
 	_length++;
-	return;
 }
 
 // Пушим новый узел в конец
@@ -197,7 +195,6 @@ void list<type>::push_back(const type& data) {
 	}
 
 	_length++;
-	return;
 }
 
 // Пушим новый узел в конец с семантикой перемещения
@@ -218,7 +215,6 @@ void list<type>::push_back(type&& data) noexcept {
 	}
 
 	_length++;
-	return;
 }
 
 // Пушим новый узел в заданный индекс
@@ -227,7 +223,7 @@ void list<type>::push_node(const type& data, int index) {
 	if (index > _length || index < 0) {
 		throw std::out_of_range("Index" + std::to_string(index) + 
 								" is out of range [0, " + 
-								std::to_string(_length) + "]";
+								std::to_string(_length) + "]");
 	}
 
 	// Частные случаи
@@ -249,12 +245,37 @@ void list<type>::push_node(const type& data, int index) {
 	temp->n_next = new_node;
 
 	++_length;
-	return;
 }
 
 // Пушим новый узел в заданный индекс с семантикой перемещения
 template<class type>
-void list<type>::push_node(const type&& data, int index) noexcept {}
+void list<type>::push_node(type&& data, int index) {
+	if (index > _length || index < 0) {
+		throw std::out_of_range("Index" + std::to_string(index) +
+			" is out of range [0, " +
+			std::to_string(_length) + "]");
+	}
+
+	// Частные случаи
+	if (index == 0) return push_front(std::move(data));
+	if (index == _length) return push_back(std::move(data));
+
+	// Создание нового узла
+	Node* new_node = new Node(std::move(data));
+	Node* temp = _head;
+
+	// Находим узел с индексом (index-1)
+	for (int i = 0; i < index - 1; i++) {
+		temp = temp->n_next;
+	}
+	// Вставка узла
+	new_node->n_next = temp->n_next;
+	new_node->n_prev = temp;
+	temp->n_next->n_prev = new_node;
+	temp->n_next = new_node;
+
+	++_length;
+}
 
 
 /*
