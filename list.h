@@ -76,29 +76,21 @@ template<class type>
 inline list<type>::list(const list<type> &other)
 	: _length(0), _head(nullptr), _tail(nullptr) {
 	
+	if (this == &other) return;
 	if (other.empty()) return;
 
-	Node* current_other = other._head;
-
-	_head = new Node(other._head->n_data);
-	_tail = _head;
-	_length = 1;
-
-	current_other = current_other->n_next;
-
-	while (current_other != other._head) {
-		Node* new_node = new Node(current_other->n_data);
-		new_node->n_prev = _tail;
-		_tail->n_next = new_node;
-
-		_tail = new_node;
-
-		current_other = current_other->n_next;
-		++_length;
+	try {
+		Node* current_other = other._head;
+		do {
+			push_back(current_other->n_data);
+			current_other = current_other->n_next;
+		} while (current_other != other._head);
+	} catch (...) {
+		while (!empty()) {
+			pop_fornt();
+		}
+		throw;
 	}
-
-	_head->n_prev = _tail;
-	_tail->n_next = _head;
 }
 
 // Конструтор перемещения
