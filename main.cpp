@@ -1,9 +1,9 @@
 #include <iostream>
 
-#include "list.h"
+#include "CircularList.h"
 
 int main() {
-	list<int> ml;
+	CircularList<int> ml;
 
 	ml.push_front(321);
 	ml.push_front(41234);
@@ -12,7 +12,7 @@ int main() {
 	ml.push_front(0); 
 	ml.push_front(1);
 
-	list<int> mk(std::move(ml));
+	CircularList<int> mk(std::move(ml));
 
 	ml.pop_front();
 	ml.pop_back();
