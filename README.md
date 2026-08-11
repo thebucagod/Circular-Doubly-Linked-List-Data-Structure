@@ -1,35 +1,39 @@
 # Circular Linked List
 
-A tamplated cyclic doubly linked list implementation in C++
-with move semantics support and comprehensive operations.
+A templated circular doubly linked list implementation in C++ with move semantics support and comprehensive operations.
+Header-only: simply add `CircularList.h` to your project.
 
 ## Features
 
-- **Cylcic Structer** – Last element links back to the first
-- **Template Design** – Works with any data type
-- **Compplete API** – insertion, deletion, indexed access
-- **Move Semantics** – Eddicient rvalue operations
-- **Safety** – Bonds Checking and exceptions
-- **STL-Compatible** – Familiar method interface
+- **Cyclic Structure** – last element links back to the first
+- **Template Design** – works with any data type
+- **Complete API** – insertion, deletion, indexed access
+- **Move Semantics** – efficient rvalue operations
+- **Safety** – bounds checking and exceptions
+- **STL-Compatible** – familiar method interface
 
 ## Quick Start
 
 ```cpp
-#inlcude "CircularList.h"
+#include <iostream>
+#include "CircularList.h"
 
 int main() {
-	CircularList<int> list;
+    CircularList<int> list;
 
-	// Add elements
-	list.push_back(1);
-	list.push_back(2);
-	list.push_front(0);
+    // Add elements
+    list.push_back(1);
+    list.push_back(2);
+    list.push_front(0);
 
-	// Iteration
-	for (auto it = list.begin(); it != list.end(); ++it)
-		std::cout << *it << " "; // 0 1 2
+    std::cout << list << '\n';         // [0, 1, 2]
+    std::cout << list.front() << '\n'; // 0
+    std::cout << list.back() << '\n';  // 2
 
-	return 0;
+    list.pop_front();
+    std::cout << list << '\n';         // [1, 2]
+
+    return 0;
 }
 ```
 
@@ -37,37 +41,28 @@ int main() {
 
 ### Insertion Operations
 
-```cpp
-list.push_front(value);		// Add to front
-list.push_back(value);		// Add to back
-list.push_node(value, idx);	// Insert at index
-```
+list.push_front(value);      // Add to front
+list.push_back(value);       // Add to back
+list.push_node(value, idx);  // Insert at index
 
 ### Deletion Operations
 
-```cpp
-list.pop_front();	// Remove from front
-list.pop_back();	// Remove from back
-list.pop_node(ixd);	// Remove at index
-```
+list.pop_front();   // Remove from front
+list.pop_back();    // Remove from back
+list.pop_node(idx); // Remove at index
 
 ### Access Operations
 
-```cpp
-list.front();		// First element
-list.back();		// Second element
-list.get_node(idx);	// Element at index
-```
+list.front();        // First element
+list.back();         // Last element
+list.get_node(idx);  // Element at index
 
 ### Information
 
-```cpp
-list.size();	// Number of elements
-list.empty();	// Check if empty
-```
+list.size();   // Number of elements
+list.empty();  // Check if empty
 
 ## Requirements
 
-- C++17 compiler
-- Move semantics support
-- STL standart library
+- C++11 or later compiler (C++17 recommended)
+- C++ standard library
