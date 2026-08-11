@@ -3,11 +3,11 @@
 #include <iostream>
 #include <string>
 
-// Предварительное объявление шаблонного класса
+// РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРµ РѕР±СЉСЏРІР»РµРЅРёРµ С€Р°Р±Р»РѕРЅРЅРѕРіРѕ РєР»Р°СЃСЃР°
 template<class type>
 class CircularList;
 
-// Предварительное объявление шаблонного оператора
+// РџСЂРµРґРІР°СЂРёС‚РµР»СЊРЅРѕРµ РѕР±СЉСЏРІР»РµРЅРёРµ С€Р°Р±Р»РѕРЅРЅРѕРіРѕ РѕРїРµСЂР°С‚РѕСЂР°
 template<class type>
 std::ostream& operator<<(std::ostream& os, const CircularList<type>& obj);
 
@@ -21,7 +21,7 @@ public:
 
 	friend std::ostream& operator<< <type>(std::ostream& os, const CircularList<type>& obj);
 
-	// Добавить узел
+	// Р”РѕР±Р°РІРёС‚СЊ СѓР·РµР»
 	void push_front(const type& data);
 	void push_front(type&& data) noexcept;
 	void push_back(const type& data);
@@ -29,17 +29,17 @@ public:
 	void push_node(const type& data, int index);
 	void push_node(type&& data, int index);
 
-	// Удалить узел
+	// РЈРґР°Р»РёС‚СЊ СѓР·РµР»
 	bool pop_front();
 	bool pop_back();
 	bool pop_node(int index);
 
-	// Геттер узла
+	// Р“РµС‚С‚РµСЂ СѓР·Р»Р°
 	type front();
 	type back();
 	type get_node(int index);
 
-	// Вспомогательные методы
+	// Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РјРµС‚РѕРґС‹
 	bool empty() const;
 	int size() const;
 
@@ -63,15 +63,15 @@ private:
 
 
 /*
-	Конструкторы и деструкторы
+	РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂС‹ Рё РґРµСЃС‚СЂСѓРєС‚РѕСЂС‹
 */
 
-// Конструктор
+// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ
 template<class type>
 CircularList<type>::CircularList()
 	: _length(0), _head(nullptr), _tail(nullptr) {}
 
-// Конструктор копирования
+// РљРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ РєРѕРїРёСЂРѕРІР°РЅРёСЏ
 template<class type>
 inline CircularList<type>::CircularList(const CircularList<type> &other)
 	: _length(0), _head(nullptr), _tail(nullptr) {
@@ -93,7 +93,7 @@ inline CircularList<type>::CircularList(const CircularList<type> &other)
 	}
 }
 
-// Конструтор перемещения
+// РљРѕРЅСЃС‚СЂСѓС‚РѕСЂ РїРµСЂРµРјРµС‰РµРЅРёСЏ
 template<class type>
 inline CircularList<type>::CircularList(CircularList<type>&& other) noexcept
 	: _length(other._length), _head(other._head), _tail(other._tail) {	
@@ -102,12 +102,12 @@ inline CircularList<type>::CircularList(CircularList<type>&& other) noexcept
 	other._tail = nullptr;
 }
 
-// Деструктор
+// Р”РµСЃС‚СЂСѓРєС‚РѕСЂ
 template<class type>
 CircularList<type>::~CircularList() {
 	if (empty()) return;
 
-	// Разрываем цикл
+	// Р Р°Р·СЂС‹РІР°РµРј С†РёРєР»
 	_tail->n_next = nullptr;
 	_head->n_prev = nullptr;
 
@@ -122,13 +122,13 @@ CircularList<type>::~CircularList() {
 
 
 /*
-	Вставка узлов в список
-	Вставка по значениям и с семантикой перемещения
-	Возвращают void
-	Кидают ошибки у пушей по индексу
+	Р’СЃС‚Р°РІРєР° СѓР·Р»РѕРІ РІ СЃРїРёСЃРѕРє
+	Р’СЃС‚Р°РІРєР° РїРѕ Р·РЅР°С‡РµРЅРёСЏРј Рё СЃ СЃРµРјР°РЅС‚РёРєРѕР№ РїРµСЂРµРјРµС‰РµРЅРёСЏ
+	Р’РѕР·РІСЂР°С‰Р°СЋС‚ void
+	РљРёРґР°СЋС‚ РѕС€РёР±РєРё Сѓ РїСѓС€РµР№ РїРѕ РёРЅРґРµРєСЃСѓ
 */
 
-// Пушим новый узел в начало
+// РџСѓС€РёРј РЅРѕРІС‹Р№ СѓР·РµР» РІ РЅР°С‡Р°Р»Рѕ
 template<class type>
 void CircularList<type>::push_front(const type& data) {
 
@@ -149,7 +149,7 @@ void CircularList<type>::push_front(const type& data) {
 	_length++;
 }
 
-// Пушим новый узел в начало с семантикой перемещения
+// РџСѓС€РёРј РЅРѕРІС‹Р№ СѓР·РµР» РІ РЅР°С‡Р°Р»Рѕ СЃ СЃРµРјР°РЅС‚РёРєРѕР№ РїРµСЂРµРјРµС‰РµРЅРёСЏ
 template<class type>
 void CircularList<type>::push_front(type&& data) noexcept {
 	Node* new_node = new Node(std::move(data));
@@ -169,7 +169,7 @@ void CircularList<type>::push_front(type&& data) noexcept {
 	_length++;
 }
 
-// Пушим новый узел в конец
+// РџСѓС€РёРј РЅРѕРІС‹Р№ СѓР·РµР» РІ РєРѕРЅРµС†
 template<class type>
 void CircularList<type>::push_back(const type& data) {
 	Node* new_node = new Node(data);
@@ -189,7 +189,7 @@ void CircularList<type>::push_back(const type& data) {
 	_length++;
 }
 
-// Пушим новый узел в конец с семантикой перемещения
+// РџСѓС€РёРј РЅРѕРІС‹Р№ СѓР·РµР» РІ РєРѕРЅРµС† СЃ СЃРµРјР°РЅС‚РёРєРѕР№ РїРµСЂРµРјРµС‰РµРЅРёСЏ
 template<class type>
 void CircularList<type>::push_back(type&& data) noexcept {
 	Node* new_node = new Node(std::move(data));
@@ -209,7 +209,7 @@ void CircularList<type>::push_back(type&& data) noexcept {
 	_length++;
 }
 
-// Пушим новый узел в заданный индекс
+// РџСѓС€РёРј РЅРѕРІС‹Р№ СѓР·РµР» РІ Р·Р°РґР°РЅРЅС‹Р№ РёРЅРґРµРєСЃ
 template<class type>
 void CircularList<type>::push_node(const type& data, int index) {
 	if (index > _length || index < 0) {
@@ -218,19 +218,19 @@ void CircularList<type>::push_node(const type& data, int index) {
 								std::to_string(_length) + "]");
 	}
 
-	// Частные случаи
+	// Р§Р°СЃС‚РЅС‹Рµ СЃР»СѓС‡Р°Рё
 	if (index == 0) return push_front(data);
 	if (index == _length) return push_back(data);
 
-	// Создание нового узла
+	// РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ СѓР·Р»Р°
 	Node* new_node = new Node(data);
 	Node* temp = _head;
 
-	// Находим узел с индексом (index-1)
+	// РќР°С…РѕРґРёРј СѓР·РµР» СЃ РёРЅРґРµРєСЃРѕРј (index-1)
 	for (int i = 0; i < index - 1; i++) {
 		temp = temp->n_next;
 	}
-	// Вставка узла
+	// Р’СЃС‚Р°РІРєР° СѓР·Р»Р°
 	new_node->n_next = temp->n_next;
 	new_node->n_prev = temp;
 	temp->n_next->n_prev = new_node;
@@ -239,7 +239,7 @@ void CircularList<type>::push_node(const type& data, int index) {
 	++_length;
 }
 
-// Пушим новый узел в заданный индекс с семантикой перемещения
+// РџСѓС€РёРј РЅРѕРІС‹Р№ СѓР·РµР» РІ Р·Р°РґР°РЅРЅС‹Р№ РёРЅРґРµРєСЃ СЃ СЃРµРјР°РЅС‚РёРєРѕР№ РїРµСЂРµРјРµС‰РµРЅРёСЏ
 template<class type>
 void CircularList<type>::push_node(type&& data, int index) {
 	if (index > _length || index < 0) {
@@ -248,19 +248,19 @@ void CircularList<type>::push_node(type&& data, int index) {
 			std::to_string(_length) + "]");
 	}
 
-	// Частные случаи
+	// Р§Р°СЃС‚РЅС‹Рµ СЃР»СѓС‡Р°Рё
 	if (index == 0) return push_front(std::move(data));
 	if (index == _length) return push_back(std::move(data));
 
-	// Создание нового узла
+	// РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ СѓР·Р»Р°
 	Node* new_node = new Node(std::move(data));
 	Node* temp = _head;
 
-	// Находим узел с индексом (index-1)
+	// РќР°С…РѕРґРёРј СѓР·РµР» СЃ РёРЅРґРµРєСЃРѕРј (index-1)
 	for (int i = 0; i < index - 1; i++) {
 		temp = temp->n_next;
 	}
-	// Вставка узла
+	// Р’СЃС‚Р°РІРєР° СѓР·Р»Р°
 	new_node->n_next = temp->n_next;
 	new_node->n_prev = temp;
 	temp->n_next->n_prev = new_node;
@@ -271,13 +271,13 @@ void CircularList<type>::push_node(type&& data, int index) {
 
 
 /*
-	Удаление узлов в списке
-	удаление по значениям и с семантикой перемещения
-	Возвращают bool
-	Не кидают ошибки, могут мернуть 0
+	РЈРґР°Р»РµРЅРёРµ СѓР·Р»РѕРІ РІ СЃРїРёСЃРєРµ
+	СѓРґР°Р»РµРЅРёРµ РїРѕ Р·РЅР°С‡РµРЅРёСЏРј Рё СЃ СЃРµРјР°РЅС‚РёРєРѕР№ РїРµСЂРµРјРµС‰РµРЅРёСЏ
+	Р’РѕР·РІСЂР°С‰Р°СЋС‚ bool
+	РќРµ РєРёРґР°СЋС‚ РѕС€РёР±РєРё, РјРѕРіСѓС‚ РјРµСЂРЅСѓС‚СЊ 0
 */
 
-// Удаляем узел в начале
+// РЈРґР°Р»СЏРµРј СѓР·РµР» РІ РЅР°С‡Р°Р»Рµ
 template<class type>
 bool CircularList<type>::pop_front() {
 	if (empty()) return false;
@@ -303,7 +303,7 @@ bool CircularList<type>::pop_front() {
 	return true;
 }
 
-// Удаляем узел в конце
+// РЈРґР°Р»СЏРµРј СѓР·РµР» РІ РєРѕРЅС†Рµ
 template<class type>
 bool CircularList<type>::pop_back() {
 	if (empty()) return false;
@@ -331,23 +331,23 @@ bool CircularList<type>::pop_back() {
 
 
 /*
-	Гетеры различных узлов
+	Р“РµС‚РµСЂС‹ СЂР°Р·Р»РёС‡РЅС‹С… СѓР·Р»РѕРІ
 */
 
 //....
 
 
 /*
-	Вспомогательные методы
+	Р’СЃРїРѕРјРѕРіР°С‚РµР»СЊРЅС‹Рµ РјРµС‚РѕРґС‹
 */
 
-// Проверка на пустой список
+// РџСЂРѕРІРµСЂРєР° РЅР° РїСѓСЃС‚РѕР№ СЃРїРёСЃРѕРє
 template<class type>
 inline bool CircularList<type>::empty() const {
 	return _head == nullptr;
 }
 
-// Метод получения размера
+// РњРµС‚РѕРґ РїРѕР»СѓС‡РµРЅРёСЏ СЂР°Р·РјРµСЂР°
 template<class type>
 inline int CircularList<type>::size() const {
 	return _length;
@@ -355,10 +355,10 @@ inline int CircularList<type>::size() const {
 
 
 /* 
-	Перегрузки операторов
+	РџРµСЂРµРіСЂСѓР·РєРё РѕРїРµСЂР°С‚РѕСЂРѕРІ
 */
 
-// Перегрузка оператора потока вывода
+// РџРµСЂРµРіСЂСѓР·РєР° РѕРїРµСЂР°С‚РѕСЂР° РїРѕС‚РѕРєР° РІС‹РІРѕРґР°
 template<class type>
 std::ostream& operator<<(std::ostream& os, const CircularList<type>& obj) {
 	if (obj.empty()) {
